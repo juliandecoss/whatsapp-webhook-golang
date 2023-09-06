@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"strings"
 
 	"main/internal/domain/dto"
 	"main/internal/services"
@@ -29,9 +30,12 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 	if request.HTTPMethod == "POST" {
 		var whatsappEvent dto.WhatsAppEvent
-		logger := map[string]string{}
+		logger := map[string]string{
+			"user_agent": request.Headers["User-Agent"],
+			"ips":        request.Headers["X-Forwarded-For"],
+			"ip":         request.RequestContext.Identity.SourceIP,
+		}
 		err := json.Unmarshal([]byte(request.Body), &whatsappEvent)
-		fmt.Print(request.Body) //quitar esta linea
 		if err != nil {
 			logger["error"] = "Request body could not be serialized as whatsapp event"
 			logger["status_code"] = "400"
@@ -50,7 +54,6 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 		entry := whatsappEvent.Entry[0]
 
-		// Verificar que hay cambios en entry
 		if !utils.SliceHasElements(entry.Changes) {
 			return utils.HandleError(logger, 400, "No changes found in the request")
 		}
@@ -64,8 +67,21 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 		value := change.Value
 
-		if !utils.SliceHasElements(value.Contacts) {
-			return utils.HandleError(logger, 400, "No contacts found in the request")
+		if !utils.SliceHasElements(value.Contacts) && !utils.SliceHasElements(value.Statuses) {
+			fmt.Print(request.Body)
+			return utils.HandleError(logger, 400, "No contacts and no Statuses in the request")
+		} else if !utils.SliceHasElements(value.Contacts) && utils.SliceHasElements(value.Statuses) {
+			status := value.Statuses[0]
+			logger["status_code"] = "200"
+			logger["event_name"] = status.Status
+			logger["from"] = status.RecipientID
+			logger["event_id"] = status.ID
+			services.Logger(logger)
+			response := events.APIGatewayProxyResponse{
+				StatusCode: 200,
+				Body:       "Successful event received",
+			}
+			return response, nil
 		}
 
 		userName := value.Contacts[0].Profile.Name
@@ -91,7 +107,7 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		message := value.Messages[0].Text.Body
 		typeMessage := value.Messages[0].Type
 
-		if typeMessage == "text" && message == "baubisita" {
+		if typeMessage == "text" && strings.ToLower(message) == "si" {
 			err := services.SendInvitation(userCellPhone, userName)
 			if err != nil {
 				logger["reason"] = err.Error()

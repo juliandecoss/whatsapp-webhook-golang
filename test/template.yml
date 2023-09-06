@@ -6,5 +6,5 @@ Resources:
   MyLambdaFunction:
     Type: "AWS::Serverless::Function"
     Properties:
-      Handler: lambda-go/main
+      Handler: main
       Runtime: go1.x

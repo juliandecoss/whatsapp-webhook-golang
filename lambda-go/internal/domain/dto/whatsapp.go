@@ -20,6 +20,7 @@ type WhatsAppValue struct {
 	Metadata         WhatsAppMetadata  `json:"metadata"`
 	Contacts         []WhatsAppContact `json:"contacts"`
 	Messages         []WhatsAppMessage `json:"messages"`
+	Statuses         []WhatsAppStatus  `json:"statuses"`
 }
 
 type WhatsAppMetadata struct {
@@ -46,4 +47,22 @@ type WhatsAppMessage struct {
 
 type WhatsAppMessageText struct {
 	Body string `json:"body"`
+}
+
+type WhatsAppStatus struct {
+	ID           string `json:"id"`
+	Status       string `json:"status"`
+	Timestamp    string `json:"timestamp"`
+	RecipientID  string `json:"recipient_id"`
+	Conversation struct {
+		ID     string `json:"id"`
+		Origin struct {
+			Type string `json:"type"`
+		} `json:"origin"`
+	} `json:"conversation"`
+	Pricing struct {
+		Billable     bool   `json:"billable"`
+		PricingModel string `json:"pricing_model"`
+		Category     string `json:"category"`
+	} `json:"pricing"`
 }
