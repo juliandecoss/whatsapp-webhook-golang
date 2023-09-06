@@ -15,3 +15,7 @@ variable "aws_access_key" {
 variable "aws_secret_key" {
   description = "Secret Key for AWS"
 }
+
+variable "whatsapp_token" {
+  description = "permanent token to send whatsapps"
+}

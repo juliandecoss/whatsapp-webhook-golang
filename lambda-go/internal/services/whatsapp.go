@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"os"
 )
 
 var invitationStr = `
@@ -23,6 +24,7 @@ https://www.theknot.com/kamilaandjulian
 
 func SendInvitation(from string, name string) error {
 	inivitation := fmt.Sprintf(invitationStr, name)
+	whatsappToken := os.Getenv("WHATSAPP_TOKEN")
 	messageData := map[string]interface{}{
 		"messaging_product": "whatsapp",
 		"recipient_type":    "individual",
@@ -41,9 +43,9 @@ func SendInvitation(from string, name string) error {
 		err = errors.New("error decoding messageData in whatsapp")
 		return err
 	}
-
+	authorization := fmt.Sprintf("Bearer %s", whatsappToken)
 	headers := map[string]string{
-		"Authorization": "Bearer EAADgNfxSVZC4BOyxMLHgDC7rQURDPUf8bCXwA5mSWtVJhfc9zLjOdJJu0ZA95OaK8AfkCnN4jdUTRUrbbZBNnWHhNbE2c8rCQIuvVy0SAovsfXjzlVDZCFO62vy5Ku5egPKyZB5ixZBXgHrNc84kUpLcADomFJLqXLdRkuQvYS7Hj0LCOc0N8vEqpPnkf0VCwl",
+		"Authorization": authorization,
 		"Content-Type":  "application/json",
 	}
 

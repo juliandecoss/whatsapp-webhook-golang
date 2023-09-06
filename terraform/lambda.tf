@@ -12,6 +12,13 @@ resource "aws_lambda_function" "whatsapp-webhook" {
   runtime = "go1.x"
 
   role = aws_iam_role.lambda_exec.arn
+
+  environment {
+    variables = {
+      WHATSAPP_TOKEN = var.whatsapp_token
+    }
+  }
+
 }
 
 # IAM role which dictates what other AWS services the Lambda function
