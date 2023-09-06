@@ -1,0 +1,39 @@
+{
+    "object": "whatsapp_business_account",
+    "entry": [
+        {
+            "id": "121331877728049",
+            "changes": [
+                {
+                    "value": {
+                        "messaging_product": "whatsapp",
+                        "metadata": {
+                            "display_phone_number": "420731961110",
+                            "phone_number_id": "126502743873273"
+                        },
+                        "contacts": [
+                            {
+                                "profile": {
+                                    "name": "Julian David"
+                                },
+                                "wa_id": "5219611230729"
+                            }
+                        ],
+                        "messages": [
+                            {
+                                "from": "5219611230729",
+                                "id": "wamid.HBgNNTIxOTYxMTIzMDcyORUCABIYIDc3OEMzODFEOTJDN0UyMDYxNTdGRjU1QzI4OUIwRjlBAA==",
+                                "timestamp": "1693932045",
+                                "text": {
+                                    "body": "Hola que llegue a la lambda"
+                                },
+                                "type": "text"
+                            }
+                        ]
+                    },
+                    "field": "messages"
+                }
+            ]
+        }
+    ]
+}
