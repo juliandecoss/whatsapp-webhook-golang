@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"main/internal/domain/dto"
+	"main/internal/domain/entity"
 	"main/internal/services"
 	"main/internal/utils"
 
@@ -76,6 +77,7 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 			logger["event_name"] = status.Status
 			logger["from"] = status.RecipientID
 			logger["event_id"] = status.ID
+			logger["list_name"] = entity.ListOfPhonesNames[status.RecipientID]
 			services.Logger(logger)
 			response := events.APIGatewayProxyResponse{
 				StatusCode: 200,
@@ -92,6 +94,7 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		}
 		userCellPhone := value.Messages[0].From
 		logger["from"] = userCellPhone
+		logger["list_name"] = entity.ListOfPhonesNames[userCellPhone]
 		logger["message_id"] = value.Messages[0].ID
 		if field != "messages" {
 			logger["error"] = "Field not supported"
@@ -106,9 +109,11 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 		message := value.Messages[0].Text.Body
 		typeMessage := value.Messages[0].Type
-
+		logger["event_name"] = "received message"
+		logger["message_received"] = message
 		if typeMessage == "text" && strings.ToLower(message) == "si" {
-			err := services.SendInvitation(userCellPhone, userName)
+			familyName := entity.ListOfGuestsFamilyNames[userCellPhone]
+			err := services.SendInvitation(userCellPhone, familyName)
 			if err != nil {
 				logger["reason"] = err.Error()
 				logger["status_code"] = "400"
@@ -120,6 +125,20 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 				}
 				return response, nil
 			}
+			imageId := entity.ListOfGuestsImage[userCellPhone]
+			err = services.SendImage(userCellPhone, imageId)
+			if err != nil {
+				logger["reason"] = err.Error()
+				logger["status_code"] = "400"
+				logger["error"] = "Error sending whatsapp/image"
+				services.Logger(logger)
+				response := events.APIGatewayProxyResponse{
+					StatusCode: 400,
+					Body:       "Error sending whatsapp",
+				}
+				return response, nil
+			}
+			logger["event_name"] = "send whatsapp image and text"
 		}
 		logger["status_code"] = "200"
 		services.Logger(logger)
