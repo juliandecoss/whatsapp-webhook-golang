@@ -5,7 +5,7 @@ variable "s3_bucket" {
 }
 
 variable "retention_in_days"{
-  default = 1
+  default = 7
 }
 
 variable "aws_access_key" {

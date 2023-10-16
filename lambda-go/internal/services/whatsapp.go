@@ -13,7 +13,7 @@ import (
 var invitationStr = `
 Querido/a  %s.
 
-Les hacemos una cordial invitación a nuestra boda 🕊 La boda se llevará a cabo el día *16 de agosto del 2024*, en la ciudad de *Olomouc, República Checa* 🇨🇿 Estaremos muy contentos si podrán acompañarnos en este gran día. En la parte baja del texto encontrarán el enlace a la pagina web con más información sobre el evento. En enero de 2024 vamos a enviar un nuevo mensaje para saber si podrán acompañarnos. Les mandamos un abrazo sincero. Kami y Julián. 
+Les hacemos una cordial invitación a nuestra boda 🕊 La boda se llevará a cabo el día *16 de agosto del 2024*, en la ciudad de *Olomouc, República Checa* 🇨🇿 y será una boda muy pequeña. Estaremos muy contentos si podrán acompañarnos en este gran día. En la parte baja del texto encontrarán el enlace a la pagina web con más información sobre el evento. En enero de 2024 vamos a enviar un nuevo mensaje para saber si podrán acompañarnos. Les mandamos un abrazo sincero. Kami y Julián. 
 
 Nota: no podemos ver sus mensajes en esta cuenta o responderlos 💻
 
