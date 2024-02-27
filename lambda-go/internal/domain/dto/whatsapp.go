@@ -42,11 +42,17 @@ type WhatsAppMessage struct {
 	ID        string              `json:"id"`
 	Timestamp string              `json:"timestamp"`
 	Text      WhatsAppMessageText `json:"text"`
+	Button    WhatsAppButton      `json:"button"`
 	Type      string              `json:"type"`
 }
 
 type WhatsAppMessageText struct {
 	Body string `json:"body"`
+}
+
+type WhatsAppButton struct {
+	Payload string `json:"payload"`
+	Text    string `json:"text"`
 }
 
 type WhatsAppStatus struct {

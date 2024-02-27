@@ -10,5 +10,6 @@ func Logger(data map[string]string) {
 	if err != nil {
 		fmt.Println("Error formatting the logger:", err)
 	}
+
 	fmt.Print(string(loggerData))
 }

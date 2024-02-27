@@ -1,0 +1,45 @@
+linters:
+  disable-all: true
+  enable:
+    - deadcode
+    - goconst
+    - gofmt
+    - gomnd
+    - gosimple
+    - govet
+    - unparam
+    - nilerr
+    - errcheck
+    - errorlint
+    - exhaustive
+    - ineffassign
+    - predeclared
+    - structcheck
+    - typecheck
+    - asciicheck
+    - ifshort
+    - lll
+    - wsl
+    - prealloc
+    - nestif
+    - misspell
+    - makezero
+    - gocognit
+    - varnamelen
+    - noctx
+    - exportloopref
+
+linters-settings:
+  varnamelen:
+    min-name-length: 2
+
+run:
+  skip-dirs:
+    - mocks
+
+issues:
+  exclude-rules:
+    - linters:
+        - structcheck
+        - unused
+      source: "tableName"

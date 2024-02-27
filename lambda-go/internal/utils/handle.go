@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"errors"
 	"main/internal/services"
 	"reflect"
 	"strconv"
@@ -21,8 +22,9 @@ func HandleError(
 	logger["error"] = message
 	logger["status_code"] = strconv.Itoa(statusCode)
 	services.Logger(logger)
+
 	return events.APIGatewayProxyResponse{
 		StatusCode: statusCode,
 		Body:       message,
-	}, nil
+	}, errors.New(message)
 }

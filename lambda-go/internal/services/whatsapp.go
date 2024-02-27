@@ -2,6 +2,7 @@ package services
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -10,22 +11,22 @@ import (
 	"os"
 )
 
-var invitationStr = `
-Querido/a  %s.
+func ResponseWhatsapp(from, name, typeOfMessage string, ctx context.Context) error {
+	var message string
 
-Les hacemos una cordial invitación a nuestra boda 🕊 La boda se llevará a cabo el día *16 de agosto del 2024*, en la ciudad de *Olomouc, República Checa* 🇨🇿 y será una boda muy pequeña. Estaremos muy contentos si podrán acompañarnos en este gran día. En la parte baja del texto encontrarán el enlace a la pagina web con más información sobre el evento. En enero de 2024 vamos a enviar un nuevo mensaje para saber si podrán acompañarnos. Les mandamos un abrazo sincero. Kami y Julián. 
+	switch typeOfMessage {
+	case "invitation":
+		message = fmt.Sprintf(invitationStr, name)
+	case "Si":
+		message = invitationSi
+	case "No":
+		message = invitationNo
+	case "Tal vez":
+		message = invitationMaybe
+	default:
+		message = defaultMessage
+	}
 
-Nota: no podemos ver sus mensajes en esta cuenta o responderlos 💻
-
-Todo lo que se hace por amor, se hace más allá del bien y del mal.
-Nietzsche
-
-Para más información por favor visita nuestra pagina web 👇🏾
-https://kamilaandree.wixsite.com/kamiaandjulian
-`
-
-func SendInvitation(from string, name string) error {
-	inivitation := fmt.Sprintf(invitationStr, name)
 	whatsappToken := os.Getenv("WHATSAPP_TOKEN")
 	messageData := map[string]interface{}{
 		"messaging_product": "whatsapp",
@@ -34,7 +35,7 @@ func SendInvitation(from string, name string) error {
 		"type":              "text",
 		"text": map[string]interface{}{
 			"preview_url": false,
-			"body":        inivitation,
+			"body":        message,
 		},
 	}
 
@@ -45,6 +46,7 @@ func SendInvitation(from string, name string) error {
 		err = errors.New("whatsapp/message error decoding messageData in whatsapp")
 		return err
 	}
+
 	authorization := fmt.Sprintf("Bearer %s", whatsappToken)
 	headers := map[string]string{
 		"Authorization": authorization,
@@ -52,12 +54,14 @@ func SendInvitation(from string, name string) error {
 	}
 
 	client := &http.Client{}
-	req, err := http.NewRequest("POST", url, bytes.NewBuffer(requestBody))
+	req, err := http.NewRequestWithContext(ctx, "POST", url, bytes.NewBuffer(requestBody))
+
 	if err != nil {
 		finalError := fmt.Sprintf(
 			"whatsapp/message error creating http request in whatsapp: %s",
 			err,
 		)
+
 		return errors.New(finalError)
 	}
 
@@ -77,16 +81,18 @@ func SendInvitation(from string, name string) error {
 	} else {
 		responseBody, err := io.ReadAll(response.Body)
 		finalError := ""
+
 		if err != nil {
 			finalError = fmt.Sprintf("whatsapp/message http error and reading the response: %s", err)
 		} else {
 			finalError = fmt.Sprintf("whatsapp/message http error response: %s", responseBody)
 		}
+
 		return errors.New(finalError)
 	}
 }
 
-func SendImage(from string, imageId string) error {
+func SendImage(from, imageId string, ctx context.Context) error {
 	whatsappToken := os.Getenv("WHATSAPP_TOKEN")
 	messageData := map[string]interface{}{
 		"messaging_product": "whatsapp",
@@ -104,6 +110,7 @@ func SendImage(from string, imageId string) error {
 		err = errors.New("whatsapp/image error decoding messageData in whatsapp")
 		return err
 	}
+
 	authorization := fmt.Sprintf("Bearer %s", whatsappToken)
 	headers := map[string]string{
 		"Authorization": authorization,
@@ -111,7 +118,8 @@ func SendImage(from string, imageId string) error {
 	}
 
 	client := &http.Client{}
-	req, err := http.NewRequest("POST", url, bytes.NewBuffer(requestBody))
+	req, err := http.NewRequestWithContext(ctx, "POST", url, bytes.NewBuffer(requestBody))
+
 	if err != nil {
 		finalError := fmt.Sprintf("whatsapp/image error creating http request in whatsapp: %s", err)
 		return errors.New(finalError)
@@ -134,10 +142,12 @@ func SendImage(from string, imageId string) error {
 
 	responseBody, err := io.ReadAll(response.Body)
 	finalError := ""
+
 	if err != nil {
 		finalError = fmt.Sprintf("whatsapp/image http error and reading the response: %s", err)
 	} else {
 		finalError = fmt.Sprintf("whatsapp/image http error response: %s", responseBody)
 	}
+
 	return errors.New(finalError)
 }

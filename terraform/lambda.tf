@@ -42,7 +42,7 @@ resource "aws_iam_role" "lambda_exec" {
 }
 EOF
 
-# Política adicional para permitir escritura en CloudWatch Logs
+  # Política adicional para permitir escritura en CloudWatch Logs
   inline_policy {
     name = "lambda-cloudwatch-logs-policy"
 
@@ -53,7 +53,8 @@ EOF
           Action = [
             "logs:CreateLogGroup",
             "logs:CreateLogStream",
-            "logs:PutLogEvents"
+            "logs:PutLogEvents",
+            "dynamodb:PutItem"
           ],
           Effect   = "Allow",
           Resource = "*"
