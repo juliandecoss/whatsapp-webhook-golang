@@ -9,10 +9,10 @@ import (
 	"strings"
 	"sync"
 
-	"main/internal/domain/dto"
-	"main/internal/domain/entity"
-	"main/internal/services"
-	"main/internal/utils"
+	"whatsapp-webhook-golang/src/domain/dto"
+	"whatsapp-webhook-golang/src/domain/entity"
+	"whatsapp-webhook-golang/src/services"
+	"whatsapp-webhook-golang/src/utils"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -127,17 +127,17 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 				return utils.HandleError(logger, http.StatusBadRequest, err)
 			}
 
-			imageId := entity.ListOfGuestsImage[userCellPhone]
-			err = services.SendImage(userCellPhone, imageId, ctx)
+			// imageId := entity.ListOfGuestsImage[userCellPhone]
+			// err = services.SendImage(userCellPhone, imageId, ctx)
 
-			if err != nil {
-				err := fmt.Sprintf(
-					"error sending whatsapp image: %s",
-					err,
-				)
+			// if err != nil {
+			// 	err := fmt.Sprintf(
+			// 		"error sending whatsapp image: %s",
+			// 		err,
+			// 	)
 
-				return utils.HandleError(logger, http.StatusBadRequest, err)
-			}
+			// 	return utils.HandleError(logger, http.StatusBadRequest, err)
+			// }
 
 			logger["event_name"] = "send whatsapp image and text"
 		}

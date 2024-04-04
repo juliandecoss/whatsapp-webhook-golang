@@ -1,4 +1,4 @@
-module main
+module whatsapp-webhook-golang
 
 go 1.21
 

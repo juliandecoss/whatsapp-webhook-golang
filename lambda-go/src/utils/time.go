@@ -7,6 +7,8 @@ func GetCurrentTime() string {
 	if err != nil {
 		panic(err)
 	}
+
 	now := time.Now().In(location)
+
 	return now.Format("02/01/2006 15:04")
 }

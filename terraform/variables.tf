@@ -4,7 +4,7 @@ variable "s3_bucket" {
   default = "backend-lambda-golang"
 }
 
-variable "retention_in_days"{
+variable "retention_in_days" {
   default = 7
 }
 
@@ -18,4 +18,8 @@ variable "aws_secret_key" {
 
 variable "whatsapp_token" {
   description = "permanent token to send whatsapps"
+}
+
+variable "file_zip_name" {
+  default = "bootstrap"
 }

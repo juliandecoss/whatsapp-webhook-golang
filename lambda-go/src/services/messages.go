@@ -22,7 +22,7 @@ Nos alegra mucho contar con tu presencia en la boda.
 
 Gracias por hacer el esfuerzo de viajar tan lejos para estar con nosotros.  Un abrazo con cariño ❤️
 
-Nos vemos en praga, el corazón de europa 🏰❤️
+Nos vemos en República Checa 🇨🇿, el corazón de europa 🏰❤️
 `
 
 // nolint
@@ -31,9 +31,7 @@ No te preocupes, entendemos lo dificil que es viajar tan lejos y sabemos que no 
 
 Te queremos mucho y agradecemos que hayas considerado la posibilidad ❤️.
 
-Lo más importante para nosotros es que nos desees lo mejor para esta nueva etapa, y en caso
-que te gustaría hacernos un regalo de boda.
-Te compartimos nuestra cuenta bancaria: 
+Si aun asi te gustaría hacernos un regalo de boda, te compartimos nuestra cuenta bancaria: 
 Julian cuenta Banamex
 
 clabe: 002180701879332320
@@ -45,7 +43,7 @@ Te mandamos un abrazo fuerte y que tengas un excelente día.
 var invitationMaybe = `
 No te preocupes, todavia faltan unos meses y entendemos lo complicado que es. 
 
-Mas adelante volveremos contigo para confirmar tu asistencia. 
+Más adelante volveremos contigo para confirmar tu asistencia. 
 
 Si necesitas ayuda con algo sobre el viaje, puedes escribirnos a nuestros whatsapp privados de Julian o Kami y con gusto te apoyamos.
 `

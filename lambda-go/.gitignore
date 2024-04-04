@@ -1,2 +1,6 @@
 main
 lambda-go.zip
+.env.local
+go-example-artifacts
+zipname
+bin/*

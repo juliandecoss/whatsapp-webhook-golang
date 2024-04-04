@@ -12,5 +12,9 @@ variable "app_version" {}
 variable "s3_bucket" {
   default = "$bucketname"
 }
+
+variable "file_zip_name" {
+  default = ""
+}
 EOF
 

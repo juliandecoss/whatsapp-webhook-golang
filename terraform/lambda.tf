@@ -3,13 +3,13 @@ resource "aws_lambda_function" "whatsapp-webhook" {
 
   # The bucket name as created earlier with "aws s3api create-bucket"
   s3_bucket = var.s3_bucket
-  s3_key    = "v${var.app_version}/lambda-go.zip"
+  s3_key    = "v${var.app_version}/${var.file_zip_name}.zip"
 
   # "main" is the filename within the zip file (main.js) and "handler"
   # is the name of the property under which the handler function was
   # exported in that file.
-  handler = "main"
-  runtime = "go1.x"
+  handler = "bootstrap"
+  runtime = "provided.al2"
 
   role = aws_iam_role.lambda_exec.arn
 

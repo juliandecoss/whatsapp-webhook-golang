@@ -2,9 +2,9 @@ package utils
 
 import (
 	"errors"
-	"main/internal/services"
 	"reflect"
 	"strconv"
+	"whatsapp-webhook-golang/src/services"
 
 	"github.com/aws/aws-lambda-go/events"
 )

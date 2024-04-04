@@ -1,0 +1,28 @@
+service: bootstrap
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: provided.al2
+  lambdaHashingVersion: 20201221
+
+plugins:
+  - serverless-localstack
+  - serverless-go-plugin
+  - serverless-dotenv-plugin
+
+custom:
+  localstack:
+    stages: [local]
+  go:
+    binDir: bin
+    supportedRuntimes: ["provided.al2"]
+    cgo: 0 # CGO_ENABLED flag
+    cmd: GOOS=linux GOARCH=amd64 go build
+    # test adding -ldflags="-s -w"
+    buildProvidedRuntimeAsBootstrap: true # if enabled, builds and archive function with only single "bootstrap" bin
+package:
+  individually: true
+functions:
+  bootstrap:
+    handler: src/main.go

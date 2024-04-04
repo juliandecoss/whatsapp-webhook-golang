@@ -1,0 +1,21 @@
+{
+  "name": "@royal-authentication/member-migrate-user",
+  "version": "2.4.0",
+  "ci:image": "golang:1.21-alpine",
+  "language": "go",
+  "private": true,
+  "scripts": {
+    "build-package": "sls package",
+    "prepare-package": "go mod download",
+    "start": "next start",
+    "lint": "eslint . --max-warnings 0",
+    "go-test": "go test -v ./...",
+    "go-lint": "golangci-lint run"
+  },
+  "devDependencies": {
+    "serverless-dotenv-plugin": "^6.0.0",
+    "serverless-go-build": "^0.0.6",
+    "serverless-go-plugin": "^2.3.0",
+    "serverless-localstack": "^1.2.0"
+  }
+}
